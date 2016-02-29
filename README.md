@@ -15,21 +15,19 @@ minor changes made by George Yunaev (gyunaev@ulduzsoft.com):
 * Added test application (heavily based on original eas_main.c and eas_wave.c patched for compatibility)
 * Fixed 64-bit platform compatibility
 
-Version: 3.6.10
 License: Apache
-
 
 PLATFORMS:
 
-* Linux: Arch, Debian, Fedora, Ubuntu (player: ALSA, OSS, OpenAL output)
+* Linux x86 and x64, but should work on any little-endian platform
 * Windows: x86 and x64
-* OSX: x86, x64 and powerpc (in Xterm. player: OpenAL output)
+* OSX: x86, x64
 
 BUILD FROM SOURCE:
 
 Requirements:
 * git
-* qmake or regular make
+* make or qmake (it does not use Qt though)
 * GCC or clang / Xcode / VisualStudio / MinGW or MinGW-w64
 
 Original location in Android source tree: external/sonivox/
