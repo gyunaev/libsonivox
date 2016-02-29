@@ -82,8 +82,7 @@ typedef long EAS_RESULT;
 #define EAS_STREAM_BUFFERING                4
 #define EAS_BUFFER_FULL                     5
 
-/* EAS_STATE return codes */
-typedef long EAS_STATE;
+// EAS_STATE return codes
 typedef enum
 {
     EAS_STATE_READY = 0,
@@ -124,9 +123,17 @@ typedef short EAS_I16;
 
 // gyunaev: this is obviously invalid for 64-bit arch, but since this type is used
 // internally to store pointers, we cannot put int here. Just don't use it yourself.
-typedef unsigned long EAS_U32;
-typedef long EAS_I32;
+#if defined (_WIN64)
+    // As usual Microsoft simply couldn't do it like everyone else, and they just MUST 
+    // introduce another incompatibility. No wonder every Unix programmer hates them
+    typedef unsigned long long EAS_U32;
+    typedef long long EAS_I32;
+#else
+    typedef unsigned long EAS_U32;
+    typedef long EAS_I32;
+#endif
 
+typedef EAS_I32 EAS_STATE;
 typedef unsigned int EAS_UINT;
 typedef int EAS_INT;
 typedef long EAS_LONG;

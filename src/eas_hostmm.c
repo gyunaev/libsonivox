@@ -43,15 +43,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <limits.h>
-#include <sys/mman.h>
 #include <errno.h>
-#include <signal.h>
-#include <pthread.h>
+
+#if !defined (_WIN32)
+	#include <sys/mman.h>
+	#include <unistd.h>
+#endif
 
 #include "eas_host.h"
 
@@ -90,8 +91,6 @@ typedef struct eas_hw_inst_data_tag
 {
     EAS_HW_FILE files[EAS_MAX_FILE_HANDLES];
 } EAS_HW_INST_DATA;
-
-pthread_key_t EAS_sigbuskey;
 
 /*----------------------------------------------------------------------------
  * EAS_HWInit

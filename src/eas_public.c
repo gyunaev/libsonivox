@@ -52,34 +52,6 @@
 /* number of events to parse before calling EAS_HWYield function */
 #define YIELD_EVENT_COUNT       10
 
-/*----------------------------------------------------------------------------
- * easLibConfig
- *
- * This structure is available through the EAS public interface to allow
- * the user to check the configuration of the library.
- *----------------------------------------------------------------------------
-*/
-static const S_EAS_LIB_CONFIG easLibConfig =
-{
-    LIB_VERSION,
-#ifdef _CHECKED_BUILD
-    EAS_TRUE,
-#else
-    EAS_FALSE,
-#endif
-    MAX_SYNTH_VOICES,
-    NUM_OUTPUT_CHANNELS,
-    _OUTPUT_SAMPLE_RATE,
-    BUFFER_SIZE_IN_MONO_SAMPLES,
-#ifdef _FILTER_ENABLED
-    EAS_TRUE,
-#else
-    EAS_FALSE,
-#endif
-    _BUILD_TIME_,
-    _BUILD_VERSION_
-};
-
 /* local prototypes */
 static EAS_RESULT EAS_ParseEvents (S_EAS_DATA *pEASData, S_EAS_STREAM *pStream, EAS_U32 endTime, EAS_INT parseMode);
 
@@ -341,7 +313,24 @@ static void EAS_InitStream (S_EAS_STREAM *pStream, EAS_VOID_PTR pParserModule, E
 */
 EAS_PUBLIC const S_EAS_LIB_CONFIG *EAS_Config (void)
 {
-    return &easLibConfig;
+    static S_EAS_LIB_CONFIG config;
+
+    config.libVersion = LIB_VERSION;
+    config.checkedVersion = EAS_TRUE;
+    config.maxVoices = MAX_SYNTH_VOICES;
+    config.numChannels = NUM_OUTPUT_CHANNELS;
+    config.sampleRate = _OUTPUT_SAMPLE_RATE;
+    config.mixBufferSize = BUFFER_SIZE_IN_MONO_SAMPLES;
+#ifdef _FILTER_ENABLED
+    config.filterEnabled = EAS_TRUE;
+#else
+    config.filterEnabled = EAS_FALSE;
+#endif
+
+    config.buildTimeStamp = _BUILD_TIME_;
+    config.buildGUID = __DATE__ " " __TIME__;
+
+    return &config;
 }
 
 /*----------------------------------------------------------------------------
@@ -365,6 +354,10 @@ EAS_PUBLIC EAS_RESULT EAS_Init (EAS_DATA_HANDLE *ppEASData)
     EAS_INT module;
     EAS_BOOL staticMemoryModel;
 
+    // Make sure we compiled correctly
+    if ( sizeof(EAS_I32) != sizeof(void*) )
+        return EAS_ERROR_INCOMPATIBLE_VERSION;
+    
     /* get the memory model */
     staticMemoryModel = EAS_CMStaticMemoryModel();
 

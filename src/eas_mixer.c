@@ -106,12 +106,11 @@ EAS_RESULT EAS_MixEngineInit (S_EAS_DATA *pEASData)
 */
 void EAS_MixEnginePrep (S_EAS_DATA *pEASData, EAS_I32 numSamples)
 {
-
     /* clear the mix buffer */
 #if (NUM_OUTPUT_CHANNELS == 2)
-    EAS_HWMemSet(pEASData->pMixBuffer, 0, numSamples * (EAS_I32) sizeof(long) * 2);
+    EAS_HWMemSet(pEASData->pMixBuffer, 0, numSamples * (EAS_I32) sizeof(EAS_I32) * 2);
 #else
-    EAS_HWMemSet(pEASData->pMixBuffer, 0, (EAS_I32) numSamples * (EAS_I32) sizeof(long));
+    EAS_HWMemSet(pEASData->pMixBuffer, 0, (EAS_I32) numSamples * (EAS_I32) sizeof(EAS_I32));
 #endif
 
     /* need to clear other side-chain effect buffers (chorus & reverb) */
@@ -263,7 +262,7 @@ void EAS_MixEnginePost (S_EAS_DATA *pEASData, EAS_I32 numSamples)
  *
  *----------------------------------------------------------------------------
 */
-void SynthMasterGain (long *pInputBuffer, EAS_PCM *pOutputBuffer, EAS_U16 nGain, EAS_U16 numSamples) {
+void SynthMasterGain (EAS_I32 *pInputBuffer, EAS_PCM *pOutputBuffer, EAS_U16 nGain, EAS_U16 numSamples) {
 
     /* loop through the buffer */
     while (numSamples--) {

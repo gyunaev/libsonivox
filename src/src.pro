@@ -16,3 +16,4 @@ SOURCES += eas_mididata.c eas_pan.c eas_wavefiledata.c \
        eas_rtttl.c  eas_rtttldata.c eas_xmf.c eas_xmfdata.c
 
 INCLUDEPATH += ../include
+unix: QMAKE_CFLAGS += -Wno-unused

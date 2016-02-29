@@ -40,7 +40,7 @@
 
 #include "eas_effects.h"
 
-extern void SynthMasterGain( long *pInputBuffer, EAS_PCM *pOutputBuffer, EAS_U16 nGain, EAS_U16 nNumLoopSamples);
+extern void SynthMasterGain(EAS_I32*pInputBuffer, EAS_PCM *pOutputBuffer, EAS_U16 nGain, EAS_U16 nNumLoopSamples);
 
 /*----------------------------------------------------------------------------
  * EAS_MixEngineInit()
